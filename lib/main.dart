@@ -14,7 +14,7 @@ void main() async {
   await Firebase.initializeApp();
   await GetStorage.init();
   await Hive.initFlutter();
-  // Box box = await Hive.openBox('contact-list');
+  Box box = await Hive.openBox('contact-list');
   runApp(const MyApp());
 }
 
