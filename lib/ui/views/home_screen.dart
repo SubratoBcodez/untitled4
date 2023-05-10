@@ -58,83 +58,87 @@ class _HomeState extends State<Home> {
                   return ListView.builder(
                       itemCount: contactBox!.keys.toList().length,
                       itemBuilder: (_, index) {
-                        return Card(
-                          elevation: 2,
-                          child: ListTile(
-                            title: Text(contactBox!.getAt(index)),
-                            trailing: SizedBox(
-                              width: 80,
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () async {
-                                        showDialog(
-                                            context: context,
-                                            builder: (_) {
-                                              return Dialog(
-                                                child: Container(
-                                                  height: 200,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            25),
-                                                    child: Column(
-                                                      children: [
-                                                        TextField(
-                                                          controller:
-                                                              _updatetontroller,
-
-                                                          decoration:
-                                                              InputDecoration(
-                                                            hintText:
-                                                                'update contact number',
-                                                          ),
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: Text(contactBox!.getAt(index)),
+                                trailing: SizedBox(
+                                  width: 80,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () async {
+                                            showDialog(
+                                                context: context,
+                                                builder: (_) {
+                                                  return Dialog(
+                                                    child: Container(
+                                                      height: 200,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(25),
+                                                        child: Column(
+                                                          children: [
+                                                            TextField(
+                                                              controller:
+                                                                  _updatetontroller,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                hintText:
+                                                                    'update contact number',
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 250,
+                                                              child:
+                                                                  ElevatedButton(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        final input =
+                                                                            _updatetontroller.text;
+                                                                        contactBox!.putAt(
+                                                                            index,
+                                                                            input);
+                                                                        _updatetontroller
+                                                                            .clear();
+                                                                        Get.back();
+                                                                        Get.snackbar(
+                                                                            'Updated',
+                                                                            'update successfull');
+                                                                      },
+                                                                      child: Text(
+                                                                          'Update Contact')),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 250,
-                                                          child: ElevatedButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                final input =
-                                                                    _updatetontroller
-                                                                        .text;
-                                                                contactBox!
-                                                                    .putAt(
-                                                                        index,
-                                                                        input);
-                                                                _updatetontroller
-                                                                    .clear();
-                                                                Get.back();
-                                                                Get.snackbar(
-                                                                    'Updated',
-                                                                    'update successfull');
-                                                              },
-                                                              child: Text(
-                                                                  'Update Contact')),
-                                                        ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              );
-                                            });
-                                      },
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: Colors.green,
-                                      )),
-                                  IconButton(
-                                      onPressed: () async {
-                                        await contactBox!.deleteAt(index);
-                                      },
-                                      icon: Icon(
-                                        Icons.delete_forever,
-                                        color: Colors.red,
-                                      ))
-                                ],
+                                                  );
+                                                });
+                                          },
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Colors.green,
+                                          )),
+                                      IconButton(
+                                          onPressed: () async {
+                                            await contactBox!.deleteAt(index);
+                                          },
+                                          icon: Icon(
+                                            Icons.delete_forever,
+                                            color: Colors.red,
+                                          ))
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),

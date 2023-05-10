@@ -9,78 +9,77 @@ import 'package:untitled4/ui/views/reg_screen.dart';
 import '../route/route.dart';
 
 class introScreen extends StatelessWidget {
-
   final box = GetStorage();
-
 
   @override
   // Widget build(BuildContext context) {
   //   final Color kDarkBlueColor = const Color(0xFF053149);
 
-    // const MyHome({super.key});
+  // const MyHome({super.key});
 
-    @override
-    Widget build(BuildContext context) {
-      final Color kDarkBlueColor = const Color(0xFF053149);
-      return OnBoardingSlider(
-        finishButtonText: 'Register',
-        onFinish: () {
-          box.write('reg', true);
-          Get.toNamed(reg);
-        },
-        finishButtonStyle: FinishButtonStyle(
-          backgroundColor: kDarkBlueColor,
+  @override
+  Widget build(BuildContext context) {
+    final Color kDarkBlueColor = const Color(0xFF053149);
+    return OnBoardingSlider(
+      finishButtonText: 'Register',
+      onFinish: () {
+        box.write('regchk', true);
+        Get.toNamed(reg);
+      },
+      finishButtonStyle: FinishButtonStyle(
+        backgroundColor: kDarkBlueColor,
+      ),
+      skipTextButton: Text(
+        'Skip',
+        style: TextStyle(
+          fontSize: 16,
+          color: kDarkBlueColor,
+          fontWeight: FontWeight.w600,
         ),
-        skipTextButton: Text(
-          'Skip',
-          style: TextStyle(
-            fontSize: 16,
-            color: kDarkBlueColor,
-            fontWeight: FontWeight.w600,
+      ),
+      trailing: Text(
+        'Login',
+        style: TextStyle(
+          fontSize: 16,
+          color: kDarkBlueColor,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      trailingFunction: () {
+        box.write('loginchk', true);
+        Get.toNamed(login);
+      },
+      controllerColor: kDarkBlueColor,
+      totalPage: 3,
+      headerBackgroundColor: Colors.white,
+      pageBackgroundColor: Colors.white,
+      background: [
+        Padding(
+          padding: const EdgeInsets.only(top: 100, left: 80),
+          child: Image.asset(
+            'assets/images/slide_1.png',
+            height: 300,
           ),
         ),
-        trailing: Text(
-          'Login',
-          style: TextStyle(
-            fontSize: 16,
-            color: kDarkBlueColor,
-            fontWeight: FontWeight.w600,
+        Padding(
+          padding: const EdgeInsets.only(top: 100, left: 80),
+          child: Image.asset(
+            'assets/images/slide_2.png',
+            height: 300,
           ),
         ),
-        trailingFunction: () {
-          box.write('login', true);
-          Get.toNamed(login);
-        },
-        controllerColor: kDarkBlueColor,
-        totalPage: 3,
-        headerBackgroundColor: Colors.white,
-        pageBackgroundColor: Colors.white,
-        background: [
-          Padding(
-            padding: const EdgeInsets.only(top: 180,left: 80),
-            child: Image.asset(
-              'assets/images/slide_1.png',
-              height: 300,
-            ),
+        Padding(
+          padding: const EdgeInsets.only(top: 100, left: 80),
+          child: Image.asset(
+            'assets/images/slide_3.png',
+            height: 300,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 180,left: 80),
-            child: Image.asset(
-              'assets/images/slide_2.png',
-              height: 300,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 180,left: 80),
-            child: Image.asset(
-              'assets/images/slide_3.png',
-              height: 300,
-            ),
-          ),
-        ],
-        speed: 1.8,
-        pageBodies: [
-          Container(
+        ),
+      ],
+      speed: 1.8,
+      pageBodies: [
+        SingleChildScrollView(
+          child: Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -89,7 +88,7 @@ class introScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(
-                  height: 480,
+                  height: 450,
                 ),
                 Text(
                   'On your way...',
@@ -115,7 +114,9 @@ class introScreen extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+        ),
+        SingleChildScrollView(
+          child: Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -150,7 +151,9 @@ class introScreen extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+        ),
+        SingleChildScrollView(
+          child: Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -185,8 +188,8 @@ class introScreen extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
   }
-
+}

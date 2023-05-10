@@ -21,6 +21,6 @@ List<GetPage> getPages = [
   GetPage(name: login, page: () => LoginScreen()),
   GetPage(name: reg, page: () => RegScreen()),
   GetPage(name: home, page: () => Home()),
-  GetPage(name: menu, page: ()=> Menu()),
+  GetPage(name: menu, page: () => Menu()),
   // GetPage(name: err, page: ()=>SplashScreen()),
 ];

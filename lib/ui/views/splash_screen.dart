@@ -15,20 +15,20 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final box = GetStorage();
   chooseScreen(context) {
-    var login = box.read('login');
-    var reg = box.read('reg');
-    print(login);
-    print(reg);
+    var loginchk = box.read('loginchk');
+    var regchk = box.read('regchk');
+    // print(login);
+    // print(reg);
 
-    if (login == true) {
+    if (loginchk == true) {
       Get.toNamed(login);
-    } else if (reg == true) {
+    } else if (regchk == true) {
       Get.toNamed(reg);
     } else {
       Get.toNamed(intro);
     }
 
-    Future.delayed(const Duration(seconds: 10), () => Get.toNamed(intro));
+    // Future.delayed(const Duration(seconds: 3), () => Get.toNamed(intro));
   }
 
   // chooseScreen() {
@@ -40,33 +40,35 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    chooseScreen(context);
+    Future.delayed(const Duration(seconds: 3), () => chooseScreen(context));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 300),
-              child: Center(
-                  child: Image.asset(
-                'assets/images/main.png',
-                width: 130,
-              )),
-            ),
-            // Center(child: Image.asset('assets/images/main.png', width: 120,),),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              AppString.app_name,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
-            )
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 300),
+                child: Center(
+                    child: Image.asset(
+                  'assets/images/main.png',
+                  width: 130,
+                )),
+              ),
+              // Center(child: Image.asset('assets/images/main.png', width: 120,),),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                AppString.app_name,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+              )
+            ],
+          ),
         ),
       ),
     );

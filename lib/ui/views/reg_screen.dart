@@ -10,8 +10,6 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 
 class RegScreen extends StatefulWidget {
-
-
   @override
   State<RegScreen> createState() => _RegScreenState();
 }
@@ -29,73 +27,109 @@ class _RegScreenState extends State<RegScreen> {
 
   XFile? image;
 
-  pickImageGallery()async{
+  pickImageGallery() async {
     final ImagePicker picker = ImagePicker();
-    image = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    image =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     // print(image!.path);
     // print(image!.name);
-    setState(() {
-      
-    });
-
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 25, right: 25, top: 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Signup",style: TextStyle(fontSize: 30),),
-            SizedBox(height: 25,),
-            Center(
-              child: Container(
-                height: 90,
-                width: 90,
-                decoration: BoxDecoration(color: Colors.green,shape: BoxShape.circle),
-                child: image==null?Center(
-                  child: IconButton(onPressed: ()=> pickImageGallery(), icon: Icon(Icons.camera)),
-                ): ClipRRect(borderRadius: BorderRadius.circular(50),
-                    child: Image.file(File(image!.path),fit: BoxFit.fill,)),
-              ),
-            ),
-            SizedBox(height: 15,),
-            customText('first name', Icons.account_circle_outlined, TextInputType.text,_fnameController, (val){}),
-            SizedBox(height: 15,),
-            customText('last name', Icons.account_circle_outlined, TextInputType.text,_lnameController, (val){}),
-            SizedBox(height: 15,),
-            customText('email', Icons.mail_outline,TextInputType.emailAddress,_emailController,(val){}),
-            SizedBox(height: 15,),
-            customText('password', Icons.remove_red_eye_outlined,TextInputType.text,_passController,(val){},obscureText: true),
-            SizedBox(height: 15,),
-            customText('confirm password', Icons.remove_red_eye_outlined,TextInputType.text,_passController,(val){},obscureText: true),
-            SizedBox(height: 15,),
-            customButton('Sign Up', () {
-              if(image==null){
-                Get.snackbar('Opps', 'upload your image first');
-              }
-              else if(_formKey.currentState!.validate()){
-                Get.toNamed(home);
-              }
-              else{
-                print('sorry');
-              }
-            }),
-            SizedBox(height: 15,),
-            RichText(
-                text: TextSpan(
-                    text: 'Already Have an Account?',
-                    style: TextStyle(color: Colors.black),
-                    children: [
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 25, right: 25, top: 100),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Signup",
+                  style: TextStyle(fontSize: 30),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Center(
+                  child: Container(
+                    height: 90,
+                    width: 90,
+                    decoration: BoxDecoration(
+                        color: Colors.green, shape: BoxShape.circle),
+                    child: image == null
+                        ? Center(
+                            child: IconButton(
+                                onPressed: () => pickImageGallery(),
+                                icon: Icon(Icons.camera)),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.file(
+                              File(image!.path),
+                              fit: BoxFit.fill,
+                            )),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                customText('first name', Icons.account_circle_outlined,
+                    TextInputType.text, _fnameController, (val) {}),
+                SizedBox(
+                  height: 15,
+                ),
+                customText('last name', Icons.account_circle_outlined,
+                    TextInputType.text, _lnameController, (val) {}),
+                SizedBox(
+                  height: 15,
+                ),
+                customText('email', Icons.mail_outline,
+                    TextInputType.emailAddress, _emailController, (val) {}),
+                SizedBox(
+                  height: 15,
+                ),
+                customText('password', Icons.remove_red_eye_outlined,
+                    TextInputType.text, _passController, (val) {},
+                    obscureText: true),
+                SizedBox(
+                  height: 15,
+                ),
+                customText('confirm password', Icons.remove_red_eye_outlined,
+                    TextInputType.text, _passController, (val) {},
+                    obscureText: true),
+                SizedBox(
+                  height: 15,
+                ),
+                customButton('Sign Up', () {
+                  if (image == null) {
+                    Get.snackbar('Opps', 'upload your image first');
+                  } else if (_formKey.currentState!.validate()) {
+                    Get.toNamed(home);
+                  } else {
+                    print('sorry');
+                  }
+                }),
+                SizedBox(
+                  height: 15,
+                ),
+                RichText(
+                    text: TextSpan(
+                        text: 'Already Have an Account?',
+                        style: TextStyle(color: Colors.black),
+                        children: [
                       TextSpan(
-                          recognizer: new TapGestureRecognizer()..onTap=()=>Get.toNamed(login),
+                          recognizer: new TapGestureRecognizer()
+                            ..onTap = () => Get.toNamed(login),
                           text: 'Login Now',
                           style: TextStyle(
                               color: Colors.green, fontWeight: FontWeight.w600))
                     ]))
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );
