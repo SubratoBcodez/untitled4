@@ -5,6 +5,7 @@ import 'package:untitled4/ui/views/home_screen.dart';
 import 'package:untitled4/ui/widgets/custom_button.dart';
 import 'package:untitled4/ui/widgets/custom_text.dart';
 
+import '../../logic/auth.dart';
 import '../route/route.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -60,7 +61,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 customButton('Sign In', () {
                   if (_formKey.currentState!.validate()) {
-                    Get.toNamed(home);
+                    final email = _emailController.text;
+                    final pass = _passController.text;
+                    Auth().log(email, pass, context);
                   }
                 }),
                 SizedBox(
