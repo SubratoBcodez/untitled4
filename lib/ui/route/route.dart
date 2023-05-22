@@ -1,9 +1,8 @@
 import 'package:get/route_manager.dart';
-
-import '../views/home_screen.dart';
+import 'package:untitled4/ui/views/bottom_nav.dart';
+import '../views/close.dart';
 import '../views/intro_screen.dart';
 import '../views/login_screen.dart';
-import '../views/menu_screen.dart';
 import '../views/reg_screen.dart';
 import '../views/splash_screen.dart';
 
@@ -12,7 +11,7 @@ const String intro = '/intro';
 const String login = '/login';
 const String reg = '/reg';
 const String home = '/home';
-const String menu = '/menu';
+const String navbar = '/navbar';
 // const String err = '/err';
 
 List<GetPage> getPages = [
@@ -21,6 +20,6 @@ List<GetPage> getPages = [
   GetPage(name: login, page: () => LoginScreen()),
   GetPage(name: reg, page: () => RegScreen()),
   GetPage(name: home, page: () => Home()),
-  GetPage(name: menu, page: () => Menu()),
+  GetPage(name: navbar, page: () => BottomNav()),
   // GetPage(name: err, page: ()=>SplashScreen()),
 ];

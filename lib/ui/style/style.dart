@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,16 +19,21 @@ class AppStyle {
   }
 
   GetSnackBar failedSnack(message) => GetSnackBar(
-    message: message,
-    duration: Duration(seconds: 2),
-    backgroundColor: Colors.red,
-    icon: Icon(Icons.warning),
-  );
+        message: message,
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.red,
+        icon: Icon(Icons.warning),
+      );
 
   GetSnackBar successSnack(message) => GetSnackBar(
-    message: message,
-    duration: Duration(seconds: 2),
-    backgroundColor: Colors.green,
-    icon: Icon(Icons.done),
-  );
+        message: message,
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
+        icon: Icon(Icons.done),
+      );
+
+  BottomNavigationBarItem navBar(icons, label) => BottomNavigationBarItem(
+        icon: Icon(icons),
+        label: label,
+      );
 }

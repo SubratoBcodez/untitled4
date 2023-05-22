@@ -7,7 +7,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:untitled4/const/app_string.dart';
 import 'package:untitled4/ui/route/route.dart';
-import 'package:untitled4/ui/views/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

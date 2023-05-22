@@ -20,10 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // print(login);
     // print(reg);
 
-    if (loginchk == true) {
+    if (loginchk == true || regchk == true) {
       Get.toNamed(login);
-    } else if (regchk == true) {
-      Get.toNamed(reg);
     } else {
       Get.toNamed(intro);
     }

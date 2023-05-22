@@ -4,10 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:untitled4/logic/auth.dart';
-import 'package:untitled4/ui/style/style.dart';
 
+import '../../logic/auth.dart';
 import '../route/route.dart';
+import '../style/style.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 
@@ -20,6 +20,7 @@ class _RegScreenState extends State<RegScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passController = TextEditingController();
+  final TextEditingController _uppassController = TextEditingController();
 
   final TextEditingController _fnameController = TextEditingController();
 
@@ -63,7 +64,7 @@ class _RegScreenState extends State<RegScreen> {
                       height: 90,
                       width: 90,
                       decoration: BoxDecoration(
-                          color: Colors.green, shape: BoxShape.circle),
+                          color: Colors.red, shape: BoxShape.circle),
                       child: image == null
                           ? Center(
                               child: IconButton(
@@ -71,7 +72,7 @@ class _RegScreenState extends State<RegScreen> {
                                   icon: Icon(Icons.camera)),
                             )
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
+                              borderRadius: BorderRadius.circular(25),
                               child: Image.file(
                                 File(image!.path),
                                 fit: BoxFit.fill,
@@ -83,70 +84,71 @@ class _RegScreenState extends State<RegScreen> {
                   ),
                   customText('first name', Icons.account_circle_outlined,
                       TextInputType.text, _fnameController, (val) {
-                        if (val!.isEmpty) {
-                          return "can't be empty";
-                        } else if (val.length < 5) {
-                          return "can't be less then 5";
-                        }
-                      }),
+                    if (val!.isEmpty) {
+                      return "can't be empty";
+                    } else if (val.length < 5) {
+                      return "can't be less then 5";
+                    }
+                  }),
                   SizedBox(
                     height: 15,
                   ),
                   customText('last name', Icons.account_circle_outlined,
                       TextInputType.text, _lnameController, (val) {
-                        if (val!.isEmpty) {
-                          return "can't be empty";
-                        } else if (val.length < 5) {
-                          return "can't be less then 5";
-                        }
-                      }),
+                    if (val!.isEmpty) {
+                      return "can't be empty";
+                    } else if (val.length < 5) {
+                      return "can't be less then 5";
+                    }
+                  }),
                   SizedBox(
                     height: 15,
                   ),
                   customText('email', Icons.mail_outline,
                       TextInputType.emailAddress, _emailController, (val) {
-                        if (val!.isEmpty) {
-                          return "can't be empty";
-                        } else if (val.length < 5) {
-                          return "can't be less then 5";
-                        }
-                      }),
+                    if (val!.isEmpty) {
+                      return "can't be empty";
+                    } else if (val.length < 8) {
+                      return "can't be less then 8";
+                    }
+                  }),
                   SizedBox(
                     height: 15,
                   ),
                   customText('password', Icons.remove_red_eye_outlined,
                       TextInputType.text, _passController, (val) {
-                        if (val!.isEmpty) {
-                          return "can't be empty";
-                        } else if (val.length < 5) {
-                          return "can't be less then 5";
-                        }
-                      },
-                      obscureText: true),
+                    if (val!.isEmpty) {
+                      return "can't be empty";
+                    } else if (val.length < 8) {
+                      return "can't be less then 8";
+                    }
+                  }, obscureText: true),
                   SizedBox(
                     height: 15,
                   ),
                   customText('confirm password', Icons.remove_red_eye_outlined,
-                      TextInputType.text, _passController, (val) {
-                        if (val!.isEmpty) {
-                          return "can't be empty";
-                        } else if (val.length < 5) {
-                          return "can't be less then 5";
-                        }
-                      },
-                      obscureText: true),
+                      TextInputType.text, _uppassController, (val) {
+                    if (val!.isEmpty) {
+                      return "can't be empty";
+                    } else if (val.length < 8) {
+                      return "can't be less then 8";
+                    }
+                  }, obscureText: true),
                   SizedBox(
                     height: 15,
                   ),
                   customButton('Sign Up', () {
                     if (image == null) {
-                      Get.showSnackbar(AppStyle().failedSnack('Upload your Image first'));
+                      Get.showSnackbar(
+                          AppStyle().failedSnack('Upload Your Image First'));
                     } else if (_formKey.currentState!.validate()) {
                       final fname = _fnameController.text;
                       final lname = _lnameController.text;
                       final email = _emailController.text;
                       final pass = _passController.text;
-                      Auth().upload(Image, context, fname, lname, email, pass);
+                      Auth().upload(image, context, fname, lname, email, pass);
+                      // Get.toNamed(home);
+                      //Get.showSnackbar(AppStyle().successSnack('Access Granted'));
                     } else {
                       Get.showSnackbar(AppStyle().failedSnack('Access Denied'));
                     }
@@ -164,8 +166,12 @@ class _RegScreenState extends State<RegScreen> {
                               ..onTap = () => Get.toNamed(login),
                             text: 'Login Now',
                             style: TextStyle(
-                                color: Colors.green, fontWeight: FontWeight.w600))
-                      ]))
+                                color: Colors.green,
+                                fontWeight: FontWeight.w600)),
+                      ])),
+                  SizedBox(
+                    height: 50,
+                  ),
                 ],
               ),
             ),

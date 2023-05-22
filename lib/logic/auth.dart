@@ -1,23 +1,24 @@
-
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../ui/route/route.dart';
 import '../ui/style/style.dart';
 
 class Auth {
+  final box = GetStorage();
   upload(Image, context, fname, lname, email, pass) async {
     try {
       AppStyle().progressDialog(context);
       File imageFile = File(Image.path);
       FirebaseStorage storage = FirebaseStorage.instance;
       UploadTask uploadTask =
-      storage.ref('profile-img').child(Image.name).putFile(imageFile);
+          storage.ref('profile-img').child(Image.name).putFile(imageFile);
       TaskSnapshot snapshot = await uploadTask;
       String imgUrl = await snapshot.ref.getDownloadURL();
       Get.back();
@@ -31,16 +32,17 @@ class Auth {
   reg(fname, lname, email, pass, imgUrl) async {
     try {
       final credential =
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: pass,
       );
+      final box = GetStorage();
 
       var userCredential = credential.user;
 
       if (credential.user!.uid.isNotEmpty) {
         CollectionReference reference =
-        FirebaseFirestore.instance.collection('students');
+            FirebaseFirestore.instance.collection('users');
         reference.doc().set({
           'email': email,
           'f_name': fname,
@@ -51,7 +53,8 @@ class Auth {
           Get.back();
           Get.showSnackbar(
               AppStyle().successSnack('Account Created Successfull'));
-          Get.toNamed(home);
+          box.write('logged', true);
+          Get.toNamed(navbar);
         });
       } else {}
     } on FirebaseAuthException catch (e) {
@@ -79,12 +82,14 @@ class Auth {
       AppStyle().progressDialog(context);
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pass);
+      final box = GetStorage();
 
       var userCredenttial = credential.user;
       if (credential.user!.uid.isNotEmpty) {
         Get.back();
         Get.showSnackbar(AppStyle().successSnack('Access Granted'));
-        Get.toNamed(home);
+        box.write('logged', true);
+        Get.toNamed(navbar);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -96,6 +101,9 @@ class Auth {
         Get.showSnackbar(
             AppStyle().failedSnack('Wrong password provided for that user.'));
       }
+    } catch (e) {
+      Get.back();
+      Get.showSnackbar(AppStyle().failedSnack('Something went wrong'));
     }
   }
 }

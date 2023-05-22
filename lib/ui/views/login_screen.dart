@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:untitled4/ui/views/home_screen.dart';
+import 'package:untitled4/ui/views/close.dart';
 import 'package:untitled4/ui/widgets/custom_button.dart';
 import 'package:untitled4/ui/widgets/custom_text.dart';
 
