@@ -11,7 +11,6 @@ Widget customText(hint, prefixIcon, keyboardType, contrller, validator,
         labelText: hint,
         // hintText: hint,
 
-
         prefixIcon: Icon(prefixIcon),
       ));
 }

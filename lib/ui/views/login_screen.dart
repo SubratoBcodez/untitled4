@@ -8,10 +8,20 @@ import 'package:untitled4/ui/widgets/custom_text.dart';
 import '../../logic/auth.dart';
 import '../route/route.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
+  bool _isHidden = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,19 +52,29 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 15,
                 ),
-                customText(
-                  'password',
-                  Icons.remove_red_eye_outlined,
-                  TextInputType.text,
-                  _passController,
-                  (val) {
+                TextFormField(
+                  obscureText: _isHidden,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isHidden = !_isHidden;
+                        });
+                      },
+                      child: Icon(
+                          _isHidden ? Icons.visibility_off : Icons.visibility),
+                    ),
+                  ),
+                  controller: _passController,
+                  keyboardType: TextInputType.text,
+                  validator: (val) {
                     if (val!.isEmpty) {
                       return "can't be empty";
                     } else if (val.length < 8) {
                       return "can't be less then 8";
                     }
                   },
-                  obscureText: true,
                 ),
                 SizedBox(
                   height: 15,

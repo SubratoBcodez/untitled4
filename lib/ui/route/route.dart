@@ -1,4 +1,5 @@
 import 'package:get/route_manager.dart';
+import 'package:untitled4/ui/pages/details.dart';
 import 'package:untitled4/ui/views/bottom_nav.dart';
 import '../views/close.dart';
 import '../views/intro_screen.dart';
@@ -12,6 +13,7 @@ const String login = '/login';
 const String reg = '/reg';
 const String home = '/home';
 const String navbar = '/navbar';
+const String details = '/details';
 // const String err = '/err';
 
 List<GetPage> getPages = [
@@ -21,5 +23,6 @@ List<GetPage> getPages = [
   GetPage(name: reg, page: () => RegScreen()),
   GetPage(name: home, page: () => Home()),
   GetPage(name: navbar, page: () => BottomNav()),
+  GetPage(name: details, page: () => Details()),
   // GetPage(name: err, page: ()=>SplashScreen()),
 ];
