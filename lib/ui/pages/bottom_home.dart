@@ -18,15 +18,16 @@ class _BottomHomeState extends State<BottomHome> {
 
   fetchData() {
     FirebaseFirestore.instance
-        .collection('products')
+        .collection('foods')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((element) {
         data.add({
           'title': element['title'],
-          'description': element['description'],
+          'info': element['info'],
           'price': element['price'],
           'img_url': element['img_url'],
+          'document_id': element.id,
         });
       });
       setState(() {
@@ -53,12 +54,12 @@ class _BottomHomeState extends State<BottomHome> {
           ),
           child: ListView.builder(
               itemCount: data.length,
-              itemBuilder: (_, Index) {
+              itemBuilder: (_, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: InkWell(
                     onTap: () {
-                      Get.toNamed(details);
+                      Get.toNamed(details, arguments: data[index]);
                     },
                     splashColor: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -69,7 +70,7 @@ class _BottomHomeState extends State<BottomHome> {
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
-                              image: NetworkImage(data[Index]['img_url']),
+                              image: NetworkImage(data[index]['img_url'][0]),
                               fit: BoxFit.cover)),
                     ),
                   ),

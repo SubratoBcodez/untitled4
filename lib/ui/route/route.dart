@@ -23,6 +23,10 @@ List<GetPage> getPages = [
   GetPage(name: reg, page: () => RegScreen()),
   GetPage(name: home, page: () => Home()),
   GetPage(name: navbar, page: () => BottomNav()),
-  GetPage(name: details, page: () => Details()),
+  GetPage(
+      name: details,
+      page: () => Details(
+            data: Get.arguments,
+          )),
   // GetPage(name: err, page: ()=>SplashScreen()),
 ];

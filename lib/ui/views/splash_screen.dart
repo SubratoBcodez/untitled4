@@ -17,10 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
   chooseScreen(context) {
     var loginchk = box.read('loginchk');
     var regchk = box.read('regchk');
+    var logged = box.read('logged');
     // print(login);
     // print(reg);
 
-    if (loginchk == true || regchk == true) {
+    if (logged == true) {
+      Get.toNamed(navbar);
+    } else if (loginchk == true || regchk == true) {
       Get.toNamed(login);
     } else {
       Get.toNamed(intro);

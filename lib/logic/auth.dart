@@ -36,11 +36,10 @@ class Auth {
         email: email,
         password: pass,
       );
-      final box = GetStorage();
 
       var userCredential = credential.user;
 
-      if (credential.user!.uid.isNotEmpty) {
+      if (userCredential!.uid.isNotEmpty) {
         CollectionReference reference =
             FirebaseFirestore.instance.collection('users');
         reference.doc().set({
@@ -54,6 +53,7 @@ class Auth {
           Get.showSnackbar(
               AppStyle().successSnack('Account Created Successfull'));
           box.write('logged', true);
+          box.write('uid', userCredential.uid);
           Get.toNamed(navbar);
         });
       } else {}
@@ -82,13 +82,14 @@ class Auth {
       AppStyle().progressDialog(context);
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pass);
-      final box = GetStorage();
 
-      var userCredenttial = credential.user;
-      if (credential.user!.uid.isNotEmpty) {
+      var userCredential = credential.user;
+      if (userCredential!.uid.isNotEmpty) {
         Get.back();
         Get.showSnackbar(AppStyle().successSnack('Access Granted'));
         box.write('logged', true);
+        box.write('uid', userCredential.uid);
+        box.write('email', email);
         Get.toNamed(navbar);
       }
     } on FirebaseAuthException catch (e) {
