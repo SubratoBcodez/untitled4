@@ -43,6 +43,7 @@ dependencies:
   firebase_storage: ^11.1.0
   firebase_auth: ^4.4.0
   carousel_slider: any
+  cached_network_image: ^3.2.3
 
 
 

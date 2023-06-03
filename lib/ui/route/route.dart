@@ -1,4 +1,5 @@
 import 'package:get/route_manager.dart';
+import 'package:untitled4/ui/pages/bottom_cart.dart';
 import 'package:untitled4/ui/pages/details.dart';
 import 'package:untitled4/ui/views/bottom_nav.dart';
 import '../views/close.dart';
@@ -14,6 +15,7 @@ const String reg = '/reg';
 const String home = '/home';
 const String navbar = '/navbar';
 const String details = '/details';
+const String cart = '/cart';
 // const String err = '/err';
 
 List<GetPage> getPages = [
@@ -28,5 +30,6 @@ List<GetPage> getPages = [
       page: () => Details(
             data: Get.arguments,
           )),
+  GetPage(name: cart, page: () => Cart()),
   // GetPage(name: err, page: ()=>SplashScreen()),
 ];
