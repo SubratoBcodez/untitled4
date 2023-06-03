@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:untitled4/ui/style/style.dart';
 import 'package:untitled4/ui/widgets/custom_button.dart';
+
+import '../route/route.dart';
 
 class Details extends StatefulWidget {
   var data;
@@ -16,6 +21,58 @@ class _DetailsState extends State<Details> {
   final box = GetStorage();
   String? uid;
   String? email;
+  addToFav() async {
+    FirebaseFirestore.instance
+        .collection('user\'s_fav')
+        .doc(uid)
+        .collection('items')
+        .doc()
+        .set({
+          'title': widget.data['title'],
+          'info': widget.data['info'],
+          'price': widget.data['price'],
+          'img_url': widget.data['img_url'],
+          'document_id': widget.data['document_id']
+        })
+        .then((value) => Get.showSnackbar(AppStyle().successSnack('Fav added')))
+        .catchError((erorr) => Get.showSnackbar(AppStyle().failedSnack(erorr)));
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> checkFav() async* {
+    yield* FirebaseFirestore.instance
+        .collection('user\'s_fav')
+        .doc(uid)
+        .collection('items')
+        .where('document_id', isEqualTo: widget.data['document_id'])
+        .snapshots();
+  }
+
+  addToCart() async {
+    FirebaseFirestore.instance
+        .collection('user\'s_cart')
+        .doc(uid)
+        .collection('items')
+        .doc()
+        .set({
+          'title': widget.data['title'],
+          'info': widget.data['info'],
+          'price': widget.data['price'],
+          'img_url': widget.data['img_url'],
+          'document_id': widget.data['document_id']
+        })
+        .then((value) =>
+            Get.showSnackbar(AppStyle().successSnack('Item\'s added')))
+        .catchError((erorr) => Get.showSnackbar(AppStyle().failedSnack(erorr)));
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> checkCart() async* {
+    yield* FirebaseFirestore.instance
+        .collection('user\'s_cart')
+        .doc(uid)
+        .collection('items')
+        .where('document_id', isEqualTo: widget.data['document_id'])
+        .snapshots();
+  }
 
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
@@ -23,8 +80,6 @@ class _DetailsState extends State<Details> {
   void initState() {
     uid = box.read('uid');
     email = box.read('email');
-    print(uid);
-    print(email);
     super.initState();
   }
 
@@ -36,7 +91,23 @@ class _DetailsState extends State<Details> {
       appBar: AppBar(
         title: Text('Details Page'),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: checkFav(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return Center(
+                    child: Icon(Icons.favorite_border_rounded),
+                  );
+                }
+                return IconButton(
+                    onPressed: () => snapshot.data!.docs.isEmpty
+                        ? addToFav()
+                        : Get.showSnackbar(
+                            AppStyle().failedSnack('Already Added')),
+                    icon: snapshot.data!.docs.isEmpty
+                        ? Icon(Icons.favorite_border)
+                        : Icon(Icons.favorite));
+              }),
         ],
       ),
       body: SingleChildScrollView(
@@ -60,12 +131,22 @@ class _DetailsState extends State<Details> {
                       },
                     ),
                     items: widget.data['img_url']
-                        .map<Widget>((item) => Container(
-                              child: Center(
-                                  child: Image.network(item,
-                                      fit: BoxFit.cover,
-                                      width: double.maxFinite)),
-                            ))
+                        .map<Widget>(
+                          (item) => CachedNetworkImage(
+                            imageUrl: item,
+                            key: UniqueKey(),
+                            height: 200,
+                            width: double.maxFinite,
+                            fit: BoxFit.cover,
+                            maxHeightDiskCache: 200,
+                            placeholder: (context, url) => Container(
+                              color: Colors.grey,
+                            ),
+                            errorWidget: (context, url, error) => Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),
@@ -78,19 +159,18 @@ class _DetailsState extends State<Details> {
                     children: widget.data['img_url']
                         .asMap()
                         .entries
-                        .map<Widget>((entry) {
+                        .map<Widget>((item) {
                       return GestureDetector(
-                        onTap: () =>
-                            carouselController.animateToPage(entry.key),
+                        onTap: () => carouselController.animateToPage(item.key),
                         child: Container(
-                          width: currentIndex == entry.key ? 17 : 7,
+                          width: currentIndex == item.key ? 17 : 7,
                           height: 7.0,
                           margin: const EdgeInsets.symmetric(
                             horizontal: 3.0,
                           ),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: currentIndex == entry.key
+                              color: currentIndex == item.key
                                   ? Colors.red
                                   : Colors.teal),
                         ),
@@ -144,18 +224,16 @@ class _DetailsState extends State<Details> {
                   SizedBox(
                     height: 20,
                   ),
-                  customButton('Add to Cart', () {}),
+                  customButton('Add to Cart', () => addToCart()),
                 ],
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            print(widget.data);
-          },
-          label: Text('Print')),
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: () => Get.toNamed(cart),
+      //     child: Icon(Icons.shopping_cart_outlined))
     );
   }
 }

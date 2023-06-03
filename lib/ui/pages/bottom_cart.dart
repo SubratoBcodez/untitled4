@@ -1,32 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../style/style.dart';
+class Cart extends StatefulWidget {
+  const Cart({super.key});
 
-class BottomFav extends StatefulWidget {
   @override
-  State<BottomFav> createState() => _BottomFavState();
+  State<Cart> createState() => _CartState();
 }
 
-class _BottomFavState extends State<BottomFav> {
+class _CartState extends State<Cart> {
   final box = GetStorage();
   String? uid;
   String? email;
 
-  delFav(docid) async {
+  delCart(docid) async {
     return FirebaseFirestore.instance
-        .collection('user\'s_fav')
+        .collection('user\'s_cart')
         .doc(uid)
         .collection('items')
         .doc(docid)
         .delete();
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> userFav() async* {
+  Stream<QuerySnapshot<Map<String, dynamic>>> userCart() async* {
     yield* FirebaseFirestore.instance
-        .collection('user\'s_fav')
+        .collection('user\'s_cart')
         .doc(uid)
         .collection('items')
         .snapshots();
@@ -43,12 +42,12 @@ class _BottomFavState extends State<BottomFav> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User\'s Favourit'),
+        title: Text('User\'s Cart'),
         centerTitle: true,
       ),
       body: Container(
           child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: userFav(),
+              stream: userCart(),
               builder: ((context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
@@ -79,7 +78,7 @@ class _BottomFavState extends State<BottomFav> {
                                     NetworkImage(docs[index]['img_url'][0]),
                               ),
                               trailing: IconButton(
-                                  onPressed: () => delFav(docs[index].id),
+                                  onPressed: () => delCart(docs[index].id),
                                   icon: Icon(
                                     Icons.remove_circle_outline,
                                     color: Colors.red,
