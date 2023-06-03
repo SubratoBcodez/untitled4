@@ -140,6 +140,12 @@ class _DetailsState extends State<Details> {
                               height: 200,
                               width: double.maxFinite,
                               fit: BoxFit.cover,
+                              maxHeightDiskCache: 200,
+                              placeholder: (context, url) => Container(
+                                color: Colors.grey,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Container(child: Icon(Icons.error_outline)),
                             ),
                           )
                           .toList(),
